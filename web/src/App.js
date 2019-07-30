@@ -25,11 +25,19 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ExploreIcon from '@material-ui/icons/Explore';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import RadioButtonChecked from '@material-ui/icons/RadioButtonChecked';
 
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
 import { shadows } from '@material-ui/system';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
 
 
 import StickyBox from "react-sticky-box";
@@ -37,6 +45,7 @@ import StickyBox from "react-sticky-box";
 
 import ContentCard from './postcontent'; // Import a component from another file
 
+const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -47,6 +56,19 @@ const useStyles = makeStyles(theme => ({
     fontSize: 14,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
+  },
+  mainContainer: {
+    marginLeft: '10%'
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
   },
   sideBarCard: {
     marginTop: 50,
@@ -141,6 +163,18 @@ function App() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+  const LiveChannels = [
+    {"user_id": "john", "channel_name": "#cooking", "viewer_count": '1.1'},
+    {"user_id": "kate", "channel_name": "#dancing", "viewer_count": '7.3'},
+    {"user_id": "lucy", "channel_name": "#baking", "viewer_count": '16.8'},
+    {"user_id": "kim", "channel_name": "#skateboarding", "viewer_count": '9.7'},
+    {"user_id": "bruce", "channel_name": "#basketball", "viewer_count": '21.6'}
+  ]
+  const LiveTrendingChannels = [
+    {"user_id": "samantha", "channel_name": "#artsncrafts", "viewer_count": '25.1'},
+    {"user_id": "lizzy", "channel_name": "#snowboarding", "viewer_count": '77.9'},
+    {"user_id": "louis", "channel_name": "#gaming", "viewer_count": '46.8'}
+  ]
   const Users = {
     "john": {"name": "John Doe", "profile_picture": "https://randomuser.me/api/portraits/men/32.jpg"},
     "kate": {"name": "Kate Doe", "profile_picture": "https://randomuser.me/api/portraits/women/47.jpg"},
@@ -148,7 +182,10 @@ function App() {
     "joe": {"name": "Joe Hanson", "profile_picture": "https://images-na.ssl-images-amazon.com/images/M/MV5BMTAyNTAzMTA4OTJeQTJeQWpwZ15BbWU3MDA4NDI2Njk@._V1_UX172_CR0,0,172,256_AL_.jpg"},
     "clark": {"name": "Clark Kent", "profile_picture": "https://images-na.ssl-images-amazon.com/images/M/MV5BMTUxNTExMzUzOF5BMl5BanBnXkFtZTgwOTI1MjA3OTE@._V1_UX172_CR0,0,172,256_AL_.jpg"},
     "bruce": {"name": "Bruce Wyane", "profile_picture": "https://pbs.twimg.com/profile_images/953000038967468033/n4Ngwvi7.jpg"},
-    "kim": {"name": "Kim Watson", "profile_picture": "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?h=350&auto=compress&cs=tinysrgb"}
+    "kim": {"name": "Kim Watson", "profile_picture": "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?h=350&auto=compress&cs=tinysrgb"},
+    "samantha": {"name": "Samantha Jones", "profile_picture": "https://randomuser.me/api/portraits/women/77.jpg"},
+    "lizzy": {"name": "Lizzy Marks", "profile_picture": "https://randomuser.me/api/portraits/women/68.jpg"},
+    "louis": {"name": "Louis Lane", "profile_picture": "https://randomuser.me/api/portraits/women/89.jpg"}
   }
   const ContentFeed = [
   {
@@ -307,7 +344,7 @@ function App() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="relative" className={classes.appBar}>
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>Reactive Social</Typography>
           <div className={classes.search}>
@@ -361,10 +398,74 @@ function App() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      
+      
       <React.Fragment>
         <CssBaseline />
-        <Container maxWidth="lg">
-          <Grid container spacing={2}>
+        <Container className={classes.mainContainer} maxWidth="lg">
+          <Grid container spacing={3}>
+            <Grid item xs>
+                <StickyBox offsetTop={20} offsetBottom={20}>
+                  <Card className={classes.sideBarCard}>
+                    <CardContent>
+                      <Grid container direction="row" justify="space-between" alignItems="center">
+                        <Typography color="textSecondary" gutterBottom>Channels</Typography>
+                      </Grid>
+                      <CssBaseline />
+                      <Divider className={classes.sideBarCardDividerOne} variant="fullWidth" />
+                      {LiveChannels.map(function(item, index) {
+                        return(
+                          <Grid container spacing={2}>
+                            <Grid item xs={3}>
+                              <Avatar src={Users[item.user_id].profile_picture} className={classes.sidebarAvatar}></Avatar>
+                            </Grid>
+                            <Grid item xs>
+                              <Grid container direction="row" alignItems="center">
+                                <Grid container direction="row" justify="space-between" alignItems="center">
+                                  <Link className={classes.sideBarCardFriendName} component="button" variant="body2" color="primary" onClick={() => {alert("I'm a button.");}}>{Users[item.user_id].name}</Link>
+                                  <Typography className={classes.sideBarCardFriendActive} variant="caption" display="block" color="error" gutterBottom>{item.viewer_count}K</Typography>
+                                </Grid>
+                                  <Grid container direction="row" justify="space-between" alignItems="center">
+                                  <Typography className={classes.sideBarCardFriendActive} variant="caption" display="block" color="textSecondary" gutterBottom>{item.channel_name}</Typography>
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          );
+                      })}
+                    </CardContent>
+                  </Card>
+                  <Card className={classes.sideBarCard}>
+                    <CardContent>
+                      <Grid container direction="row" justify="space-between" alignItems="center">
+                        <Typography color="textSecondary" gutterBottom>Trending</Typography>
+                      </Grid>
+                      <CssBaseline />
+                      <Divider className={classes.sideBarCardDividerOne} variant="fullWidth" />
+                      {LiveTrendingChannels.map(function(item, index) {
+                        return(
+                          <Grid container spacing={2}>
+                            <Grid item xs={3}>
+                              <Avatar src={Users[item.user_id].profile_picture} className={classes.sidebarAvatar}></Avatar>
+                            </Grid>
+                            <Grid item xs>
+                              <Grid container direction="row" alignItems="center">
+                                <Grid container direction="row" justify="space-between" alignItems="center">
+                                  <Link className={classes.sideBarCardFriendName} component="button" variant="body2" color="primary" onClick={() => {alert("I'm a button.");}}>{Users[item.user_id].name}</Link>
+                                  <Typography className={classes.sideBarCardFriendActive} variant="caption" display="block" color="error" gutterBottom>{item.viewer_count}K</Typography>
+                                </Grid>
+                                  <Grid container direction="row" justify="space-between" alignItems="center">
+                                  <Typography className={classes.sideBarCardFriendActive} variant="caption" display="block" color="textSecondary" gutterBottom>{item.channel_name}</Typography>
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          );
+                      })}
+                    </CardContent>
+                  </Card>
+                </StickyBox>
+            </Grid>
             <Grid item xs={8}>
                 {ContentFeed.map(function(item) {
                   return <ContentCard

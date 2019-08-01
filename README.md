@@ -3,7 +3,7 @@
 
 ### Deployment Commands
 ``` bash
-set FLASK_CONFIG=development
+set FLASK_CONFIG=production
 set SECRET_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 python manage.py runserver
 pause

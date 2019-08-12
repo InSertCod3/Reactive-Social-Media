@@ -197,7 +197,7 @@ function App() {
   {
     "user_id": "kate",
     "content_type": "image",
-    "content_link": "https://cdn.pixabay.com/photo/2019/07/25/08/41/rauhaardackel-4362064__340.jpg",
+    "content_link": "https://cdn.pixabay.com/photo/2016/01/30/17/58/africa-1170177_960_720.jpg",
     "date": "September 14, 2016"
   },
   {

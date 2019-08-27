@@ -1,6 +1,10 @@
 # Reactive Social Media ~ [![Python3-shield]](https://www.python.org/) [![version-shield]]() [![license-shield]]() [![flask-require-shield]]()
  Social Media app using Modern Technologies
 
+#### Screenshots
+<img width="640 " height="360"
+    src="https://github.com/InSertCod3/Reactive-Social-Media/blob/master/screenshots/0.png?raw=true">
+    
 ### Deployment Commands
 ``` bash
 set FLASK_CONFIG=production
